@@ -35,7 +35,7 @@ function Registracija() {
 
       if (response.data.id) {
         toast.success('Uspešna registracija!');
-        navigate('/login');
+        navigate('/prijava');
       } else {
         toast.error('Registracija nije uspela. Pokušaj ponovo.');
       }
