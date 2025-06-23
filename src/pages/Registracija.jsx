@@ -33,12 +33,9 @@ function Registracija() {
         password: lozinka,
       });
 
-      if (response.data.accessToken) {
-        localStorage.setItem('token', response.data.accessToken);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-
+      if (response.data.id) {
         toast.success('Uspešna registracija!');
-        navigate('/');
+        navigate('/login');
       } else {
         toast.error('Registracija nije uspela. Pokušaj ponovo.');
       }
