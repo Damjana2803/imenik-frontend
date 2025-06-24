@@ -4,15 +4,18 @@ import KontaktKartica from '../components/KontaktKartica';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Loading from '../components/Loding';
 
 function Kontakti() {
   const navigate = useNavigate();
 
+  const [ ucitano, setUcitano ] = useState(false);
   const [ kontakti, setKontakti ] = useState([]);
   const [ pretraga, setPretraga ] = useState('');
 
   const uzmiKontakte =  async () => {
     try {
+      setUcitano(false);
       const token = localStorage.getItem('token');
       const resp = await axios.get(`${process.env.REACT_APP_API_URL}/api/contacts?search=${pretraga}`, {
         headers: {
@@ -22,10 +25,12 @@ function Kontakti() {
       
       if (resp.data) {
         setKontakti(resp.data);
+        setUcitano(true);
       }
       
     } catch (e) {
       console.error(e);
+      setUcitano(true);
       toast.error('Greška prilikom uzimanja kontakata.');
     }
   }
@@ -53,13 +58,14 @@ function Kontakti() {
                   <span>Dodaj kontakt</span>
                 </div>  
               </div>
-                {kontakti.map(kontakt => (
+                {ucitano ? "" : <Loading />}
+                {ucitano && (kontakti?.length ? kontakti.map(kontakt => (
                   <KontaktKartica 
                     id={kontakt.id}
                     ime={kontakt.ime}
                     broj={kontakt?.broj} 
                   />
-                ))}
+                )) : "Nema kontakata")}
             </div>
           </div>
         </div>

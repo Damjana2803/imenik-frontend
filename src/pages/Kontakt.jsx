@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Navbar from '../components/Navbar';
+import Loading from '../components/Loding';
 
 function Kontakt() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [ kontakt, setKontakt ] = useState({});
   const token = localStorage.getItem('token');
+
+  const [ucitano, setUcitano] = useState(false);
 
   const obrisiKontakt = async () => {
     try {
@@ -29,7 +32,7 @@ function Kontakt() {
 
   const uzmiKontakt = async () => {
     const url = `${process.env.REACT_APP_API_URL}/api/contacts/${id}`;
-    
+    setUcitano(false);
     try {
       const kontaktData = await axios.get(url, {
         headers: {
@@ -39,9 +42,11 @@ function Kontakt() {
       });
       if (kontaktData?.data) {
         setKontakt(kontaktData.data);
+        setUcitano(true);
       }
     } catch (e) {
       console.error(e);
+      setUcitano(true);
       toast.error('Ovaj kontakt ne postoji!');
     }
   }
@@ -63,7 +68,7 @@ function Kontakt() {
             </div>
           </div>
 
-          <table className="kontakt-tabela">
+          {ucitano ? <table className="kontakt-tabela">
             <tbody>
               <tr>
                 <td><strong>Ime i prezime:</strong></td>
@@ -86,7 +91,7 @@ function Kontakt() {
                 <td>{kontakt.beleske ?? '-'}</td>
               </tr>
             </tbody>
-          </table>
+          </table> : <Loading />}
         </div>
       </div>
     </>
