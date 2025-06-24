@@ -54,11 +54,39 @@ function Kontakt() {
     <>
       <Navbar />
       <div className="container">
-        <div className="kontakti-container">
-          <Link to={`/kontakti/edit/${id}`}>EDIT</Link>
-          <button onClick={() => obrisiKontakt()}>OBRISI</button>
-          <h2>{ kontakt.ime }</h2>
-          <p>{ kontakt.broj }</p>
+        <div className="kontakt-detalji-container">
+          <div className="kontakt-detalji-header">
+            <h2>Detalji kontakta</h2>
+            <div className="kontakt-detalji-dugmad">
+              <Link to={`/kontakti/edit/${id}`} className="dugme dugme-izmeni">Izmeni</Link>
+              <button onClick={obrisiKontakt} className="dugme dugme-obrisi">Obriši</button>
+            </div>
+          </div>
+
+          <table className="kontakt-tabela">
+            <tbody>
+              <tr>
+                <td><strong>Ime i prezime:</strong></td>
+                <td>{kontakt.ime}</td>
+              </tr>
+              <tr>
+                <td><strong>Telefon:</strong></td>
+                <td>{kontakt.broj}</td>
+              </tr>
+              <tr>
+                <td><strong>Tip broja:</strong></td>
+                <td>{kontakt.tip_broja ?? '-'}</td>
+              </tr>
+              <tr>
+                <td><strong>Email:</strong></td>
+                <td>{kontakt.email ?? '-'}</td>
+              </tr>
+              <tr>
+                <td><strong>Beleške:</strong></td>
+                <td>{kontakt.beleske ?? '-'}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </>
